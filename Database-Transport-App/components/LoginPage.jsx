@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native'
 import React from 'react'
 import {styles} from '../Styles/LoginPage_Style'
+import { useRouter } from 'expo-router'
 
 const LoginPage = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <View style={styles.Header}> 
@@ -27,7 +30,7 @@ const LoginPage = () => {
         <Text style={styles.Forgot_Pass}>Forgot your password?</Text>
       </View>
       <View>
-      <TouchableOpacity style={styles.Login_Button}>
+      <TouchableOpacity style={styles.Login_Button} onPress={() => router.push('/home')}>
         <Text style={styles.Login_Button_Text}>Log in</Text>
       </TouchableOpacity>
       </View>
