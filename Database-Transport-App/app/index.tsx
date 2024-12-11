@@ -3,7 +3,7 @@ import LoginPage from '../components/LoginPage'
 
 export default function Index() {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <LoginPage></LoginPage>
     </View>
   );
