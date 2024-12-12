@@ -1,17 +1,48 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {styles} from '../../Styles/HomePage_Style'
-import { format } from 'date-fns'; 
+import { format, set } from 'date-fns'; 
 import Feather from '@expo/vector-icons/Feather';
 import {useLocalSearchParams} from 'expo-router';
+import supabase from '../../lib/supabase-client'
 
 
 export default function home() {
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
-
   const {employeeID} = useLocalSearchParams();
 
-  console.log({employeeID})
+  useEffect(() => {
+    fetchingTask();
+    fetchingBranchName();
+  }, [])
+
+  const [task, setTask] = useState([]);
+  const [branchName, setBranchName] = useState([]);
+
+  const fetchingTask = async () => {
+    const {data, error} = await supabase.from('report').select('*').eq('assign_employee_id', employeeID);
+    if(error) {
+      console.error('Error fetching Task:', error);
+    } else {
+      setTask(data);
+    }
+  }
+
+  const fetchingBranchName = async () => {
+    const {data, error} = await supabase.from('export_report_has_package').select('export_report_id, package(package_id, branch_warehouse(branch_id, warehouse(w_id, w_location, w_area, w_name)))');
+    if(error) {
+      console.error('Error fetching Branch Name:', error);
+    } else {
+      setBranchName(data);
+    }
+  }
+
+  const getBranchName = (reportId) => {
+    const branch = branchName.find(
+      (item) => item.export_report_id === reportId
+    );
+    return branch?.package?.branch_warehouse?.warehouse?.w_name || 'Unknown Branch';
+  };
 
   return (
     <View style={styles.container}>
@@ -47,19 +78,18 @@ export default function home() {
           </View>
           
           {/* Table Rows */}
-          <View style={styles.row}>
-            <Text style={styles.cell_Data}>Export</Text>
-            <Text style={styles.cell_Data}>Kho Quận 1</Text>
-            <Text style={styles.cell_Data}>RP0001</Text>
-            <Text style={styles.cell_Data}>not started</Text>
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.cell_Data}>Retrieve</Text>
-            <Text style={styles.cell_Data}>Kho Quận Phú Nhuận</Text>
-            <Text style={styles.cell_Data}>RT0001</Text>
-            <Text style={styles.cell_Data}>in progress</Text>
-          </View>
+          {task.map((tsk) => (
+            <View style={styles.row} key={tsk.report_id}>
+              <Text style={styles.cell_Data}>
+                {tsk.report_id.startsWith('EX') ? 'Export' : tsk.report_id.startsWith('RT') ? 'Retrieve' : 'Unknown'}
+              </Text>
+              <Text style={styles.cell_Data}>{getBranchName(tsk.report_id)}</Text>
+              <TouchableOpacity>
+                <Text style={styles.cell_Data}>{tsk.report_id}</Text>
+              </TouchableOpacity>
+              <Text style={styles.cell_Data}>{tsk.status}</Text>
+            </View>
+          ))}
       
         </View>
         </ScrollView>

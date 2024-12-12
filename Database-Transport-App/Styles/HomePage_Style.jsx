@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
   },
 
   tableContainer: {
-    paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
   table: {
     borderWidth: 1,
@@ -105,16 +105,16 @@ export const styles = StyleSheet.create({
     borderColor: 'black',
     fontSize: 12,
     fontFamily: 'roboto',
-    color: '#FFFFE8'
+    color: '#FFFFE8',
   },
 
   cell_Data: {
-    flex: 1,
+    flex: 0.6,
     textAlign: 'center',
-    padding: 10,
+    padding: 8,
     borderRightWidth: 1,
     borderColor: 'black',
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: 'roboto',
   },
   
