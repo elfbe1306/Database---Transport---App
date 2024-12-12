@@ -109,7 +109,7 @@ export const styles = StyleSheet.create({
   },
 
   cell_Data: {
-    flex: 0.6,
+    flex: 1,
     textAlign: 'center',
     padding: 8,
     borderRightWidth: 1,
@@ -117,5 +117,11 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'roboto',
   },
+
+  button_style: {
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: 'roboto',
+  }
   
 });

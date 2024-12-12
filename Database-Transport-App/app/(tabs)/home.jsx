@@ -73,28 +73,23 @@ export default function home() {
         <View style={styles.table}>
           {/* Table Header */}
           <View style={styles.row_Header}>
-            <Text style={styles.cell_Header}>Task</Text>
-            <Text style={styles.cell_Header}>Branch's Name</Text>
-            <Text style={styles.cell_Header}>Report</Text>
-            <Text style={styles.cell_Header}>Status</Text>
+            <Text style={[styles.cell_Header, { flex: 1.2 }]}>Task</Text>
+            <Text style={[styles.cell_Header, { flex: 4 }]}>Branch's Name</Text>
+            <Text style={[styles.cell_Header, { flex: 1.2 }]}>Report</Text>
+            <Text style={[styles.cell_Header, { flex: 1.2 }]}>Status</Text>
           </View>
           
           {/* Table Rows */}
           {task.map((tsk) => (
             <View style={styles.row} key={tsk.report_id}>
-              <Text style={styles.cell_Data}>
+              <Text style={[styles.cell_Data, { flex: 1.24 }]}>
                 {tsk.report_id.startsWith('EX') ? 'Export' : tsk.report_id.startsWith('RT') ? 'Retrieve' : 'Unknown'}
               </Text>
-              <Text style={styles.cell_Data}>{getBranchName(tsk.report_id)}</Text>
-              <TouchableOpacity onPress={() => {
-                router.push({
-                  pathname: '/report',
-                  params: {employeeID: employeeID}
-                })
-              }}>
-                <Text style={styles.cell_Data}>{tsk.report_id}</Text>
+              <Text style={[styles.cell_Data, { flex: 3.9 }]}>{getBranchName(tsk.report_id)}</Text>
+              <TouchableOpacity style={[styles.cell_Data, { flex: 1.25 }]}>
+                <Text style={[styles.button_style]}>{tsk.report_id}</Text>
               </TouchableOpacity>
-              <Text style={styles.cell_Data}>{tsk.status}</Text>
+              <Text style={[styles.cell_Data, { flex: 1.23 }]}>{tsk.status}</Text>
             </View>
           ))}
       
