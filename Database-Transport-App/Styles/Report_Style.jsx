@@ -23,7 +23,7 @@ firstHeaderContainer: {
     justifyContent:'space-between=',
     alignItems: 'center',
     alignContent: 'center',
-    gap: '35%',
+    gap: '30%',
     flexDirection:'row',
   },
   userNameBox: {
