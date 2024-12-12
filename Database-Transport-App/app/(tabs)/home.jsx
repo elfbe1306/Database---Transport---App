@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react'
 import {styles} from '../../Styles/HomePage_Style'
 import { format, set } from 'date-fns'; 
 import Feather from '@expo/vector-icons/Feather';
-import {useLocalSearchParams} from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
 import supabase from '../../lib/supabase-client'
 
 
 export default function home() {
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
   const {employeeID} = useLocalSearchParams();
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchingTask();
@@ -84,7 +86,12 @@ export default function home() {
                 {tsk.report_id.startsWith('EX') ? 'Export' : tsk.report_id.startsWith('RT') ? 'Retrieve' : 'Unknown'}
               </Text>
               <Text style={styles.cell_Data}>{getBranchName(tsk.report_id)}</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                router.push({
+                  pathname: '/report',
+                  params: {employeeID: employeeID}
+                })
+              }}>
                 <Text style={styles.cell_Data}>{tsk.report_id}</Text>
               </TouchableOpacity>
               <Text style={styles.cell_Data}>{tsk.status}</Text>
