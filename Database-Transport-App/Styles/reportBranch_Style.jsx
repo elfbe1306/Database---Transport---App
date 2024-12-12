@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   Footer_container: {
     flex: 3.5,
-    marginTop: 10,
+    marginTop: 15,
   },
 
   firstBody: {
