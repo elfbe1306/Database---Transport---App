@@ -3,8 +3,11 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import { styles } from '../../Styles/checkQR_Style' 
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function checkQR() {
+  const {employeeID, packageIds} = useLocalSearchParams();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
