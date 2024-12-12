@@ -1,12 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { styles } from '../../Styles/checkQR_Style' 
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams } from 'expo-router';
+import supabase from '../../lib/supabase-client';
 
 export default function checkQR() {
-  const {employeeID, packageIds} = useLocalSearchParams();
+  const { employeeID, packageIds } = useLocalSearchParams(); // assuming packageIds is a string like "MP0008,MP0013"
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [packageIds]); // Depend on packageIds so the fetch only runs when packageIds changes
+
+  const fetchProducts = async () => {
+    // Ensure packageIds is not undefined or empty
+    if (!packageIds) {
+      console.error('No packageIds provided');
+      return;
+    }
+
+    const packageIdsArray = packageIds.split(','); // Convert the comma-separated string into an array
+
+    // Fetch products from Supabase
+    const { data, error } = await supabase
+      .from('package')
+      .select('*')
+      .in('package_id', packageIdsArray);
+
+    if (error) {
+      console.error('Error fetching products:', error);
+    } else {
+      setProducts(data); // Set the state with fetched data
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -37,19 +65,15 @@ export default function checkQR() {
           </View>
           
           {/* Table Rows */}
-          <View style={styles.row}>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0001</Text>
-            <Text style={[styles.cell_Data, { flex: 4 }]}>Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu 473ml</Text>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}>success</Text>
-          </View>
 
-          <View style={styles.row}>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
-            <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
-            <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
-          </View>
+          {products.map((pkg) => (
+            <View style={styles.row}>
+              <Text style={[styles.cell_Data, { flex: 1.2 }]}>{pkg.package_id}</Text>
+              <Text style={[styles.cell_Data, { flex: 4 }]}>{pkg.product_name}</Text>
+              <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+              <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
+          ))}
       
         </View>
         </ScrollView>
