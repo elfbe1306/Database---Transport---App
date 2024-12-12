@@ -10,7 +10,7 @@ export default function home() {
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
 
       <View style={styles.headerContainer}>
         <View style={styles.firstHeaderContainer}>
@@ -35,7 +35,7 @@ export default function home() {
         </View>
 
         <View style={styles.Footer_container}>
-            <ScrollView style={styles.tableContainer}>
+            <View style={styles.tableContainer}>
             <View style={styles.table}>
             {/* Table Header */}
             <View style={styles.row_Header}>
@@ -59,11 +59,51 @@ export default function home() {
                 <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
                 <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
             </View>
+
+            <View style={styles.row}>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
+                <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
+
+            <View style={styles.row}>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
+                <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
+
+            <View style={styles.row}>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
+                <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
+
+            <View style={styles.row}>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
+                <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
+
+            <View style={styles.row}>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>MP0002</Text>
+                <Text style={[styles.cell_Data, { flex: 4 }]}>Kem Chống Nắng La Roche-Posay Kiểm Soát Dầu SPF50+ 50ml</Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
+                <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+            </View>
         
             </View>
-            </ScrollView>
+            </View>
+
+            <TouchableOpacity style={styles.confirmed_Button}>
+                <Text style={styles.confirmed_Button_Text}>Confirmed</Text>
+            </TouchableOpacity>
+            
         </View>
 
-    </View>
+    </ScrollView>
   )
 }
