@@ -3,7 +3,7 @@ import React from 'react'
 import {styles} from '../../Styles/HomePage_Style'
 import { format } from 'date-fns'; 
 import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 export default function home() {
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
@@ -15,7 +15,7 @@ export default function home() {
         <View style={styles.firstHeaderContainer}>
           <View style={styles.userNameBox}>
             <View style={styles.imageBox}>
-            <Ionicons name="person-circle-outline" size={50} color="#4A628A" style={styles.userImage}/>
+            <Image source={{ uri: 'https://i.pinimg.com/736x/64/56/c4/6456c41df52ca456a072dc086c091f7a.jpg' }} style={styles.userImage}/>
             </View>
             <Text style={styles.userName}>Doan Le Vy</Text>
           </View>

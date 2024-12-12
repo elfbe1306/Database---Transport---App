@@ -23,15 +23,15 @@ export const styles = StyleSheet.create({
 
   firstHeaderContainer: {
     position: 'absolute',
-    marginTop: '15%',
+    marginTop: '20%',
     justifyContent:'space-between=',
     alignItems: 'center',
     alignContent: 'center',
-    gap: '38%',
+    gap: '35%',
     flexDirection:'row',
   },
   userNameBox: {
-    backgroundColor: 'white',
+    backgroundColor: '#4A628A',
     paddingLeft: 5,
     paddingRight: 30,
     paddingVertical: 5,
@@ -40,21 +40,26 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
   },
   imageBox: {
-    backgroundColor: 'white', 
-    borderRadius: 99,
-    height: 50,
+    width: 50,  
+    height: 50, 
+    borderRadius: 75, 
+    overflow: 'hidden', 
   },
   userImage : {
-    top: 0.5,
+    top: -13,
     left: 0,
     width: 50, 
     height: 75,
+    resizeMode: 'contain', 
   },
   userName: {
     marginTop: 16,
     marginLeft: 15,
-    fontFamily: 'roboto'
+    fontFamily: 'roboto-bold',
+    color:'#FFFFE8',
+    fontSize: 16 
   },
+  
   notificationButton: {
     padding: 15,
     backgroundColor: 'white',
