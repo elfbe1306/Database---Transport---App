@@ -3,10 +3,15 @@ import React from 'react'
 import {styles} from '../../Styles/HomePage_Style'
 import { format } from 'date-fns'; 
 import Feather from '@expo/vector-icons/Feather';
+import {useLocalSearchParams} from 'expo-router';
 
 
 export default function home() {
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
+
+  const {employeeID} = useLocalSearchParams();
+
+  console.log({employeeID})
 
   return (
     <View style={styles.container}>
