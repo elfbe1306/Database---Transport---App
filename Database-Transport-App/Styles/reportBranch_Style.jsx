@@ -11,11 +11,12 @@ export const styles = StyleSheet.create({
     flex: 1.8
   },
   bodyContainer: {
-    flex: 6
+    flex: 6,
   },
   Footer_container: {
     flex: 3.5,
-    marginTop: 10,
+    marginTop: '8%',
+    marginBottom: '50%'
   },
 
   firstBody: {
@@ -72,9 +73,10 @@ export const styles = StyleSheet.create({
 
   Report_frame: {
     width: 320,
-    height: 453,
+    height: 455,
     backgroundColor: 'orange',
     marginHorizontal: 50,
+    marginTop:'40%',
 },
 
 tableContainer: {
@@ -118,5 +120,21 @@ tableContainer: {
     fontSize: 11,
     fontFamily: 'roboto',
   },
+
+  confirmed_Button: {
+    marginLeft:'70%',
+    marginRight:'4%',
+    marginTop:'5%',
+    backgroundColor: '#4A628A', 
+    paddingVertical: 10,
+    borderRadius: 12,
+  },
+
+  confirmed_Button_Text: {
+    fontFamily: 'roboto-bold',
+    color: '#FFFFE8',
+    fontSize: 12,
+    textAlign: 'center',
+  }
   
 });
