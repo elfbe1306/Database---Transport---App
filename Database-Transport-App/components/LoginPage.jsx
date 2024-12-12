@@ -34,7 +34,7 @@ const LoginPage = () => {
     if(error) {
       setErrorMessage(error.message);
     } else {
-      router.push('/(tabs)');
+      router.push('/(branchs)');
     }
   }
 
