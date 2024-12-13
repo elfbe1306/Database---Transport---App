@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from '../../Styles/checkQR_Style';
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -9,14 +9,21 @@ import { useCameraPermissions } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function checkQR() {
-  const { employeeID, packageIds } = useLocalSearchParams();
+  const { reportID, employeeID, packageIds } = useLocalSearchParams();
   const [products, setProducts] = useState([]);
   const [storageQR, setStorageQR] = useState([]);
+  const [allComplete, setAllComplete] = useState(false);
+  const [deliveryStatus, setDeliveryStatus] = useState('Start Delivery'); // Button text
 
   useEffect(() => {
     fetchProducts();
     initializeStorageQR();
+    fetchReportStatus(); // Check report status on page load
   }, [packageIds]);
+
+  useEffect(() => {
+    checkAllComplete();
+  }, [products, storageQR]);
 
   const fetchProducts = async () => {
     if (!packageIds) {
@@ -50,6 +57,26 @@ export default function checkQR() {
     }
   };
 
+  const fetchReportStatus = async () => {
+    const { data, error } = await supabase
+      .from('report')
+      .select('status')
+      .eq('report_id', reportID)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error fetching report status:', error);
+    } else {
+      if (data.status === 'In Progress') {
+        setDeliveryStatus('Complete');
+      } else if (data.status === 'Completed') {
+        setDeliveryStatus('Delivery Completed');
+      } else {
+        setDeliveryStatus('Start Delivery');
+      }
+    }
+  };
+
   const resetStorageQR = async () => {
     try {
       await AsyncStorage.setItem('@QRDATA', JSON.stringify([]));
@@ -57,6 +84,39 @@ export default function checkQR() {
       console.log('Storage reset successfully');
     } catch (error) {
       console.error('Error resetting storage:', error);
+    }
+  };
+
+  const checkAllComplete = () => {
+    const allCompleted = products.every((pkg) => storageQR.includes(pkg.package_id));
+    setAllComplete(allCompleted);
+  };
+
+  const handleStartDelivery = async () => {
+    if (deliveryStatus === 'Start Delivery') {
+      // Update report status to 'In Progress'
+      const { error } = await supabase
+        .from('report')
+        .update({ status: 'In Progress' })
+        .eq('report_id', reportID);
+
+      if (error) {
+        console.error('Error updating report to In Progress:', error);
+      } else {
+        setDeliveryStatus('Complete');
+      }
+    } else if (deliveryStatus === 'Complete') {
+      // Update report status to 'Completed'
+      const { error } = await supabase
+        .from('report')
+        .update({ status: 'Completed' })
+        .eq('report_id', reportID);
+
+      if (error) {
+        console.error('Error updating report to Completed:', error);
+      } else {
+        setDeliveryStatus('Delivery Completed');
+      }
     }
   };
 
@@ -118,8 +178,13 @@ export default function checkQR() {
       </View>
 
       <View style={styles.Footer_container}>
-        <TouchableOpacity style={styles.confirmed_Button}>
-          <Text style={styles.confirmed_Button_Text}>Start Delivery</Text>
+        <TouchableOpacity
+          style={styles.confirmed_Button}
+          disabled={!allComplete || deliveryStatus === 'Delivery Completed'}
+          onPress={handleStartDelivery}>
+          <Text style={styles.confirmed_Button_Text}>
+            {deliveryStatus}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.confirmed_Button} onPress={requestPermission}>
           <Text style={styles.confirmed_Button_Text}>Grant Permission</Text>

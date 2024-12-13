@@ -108,7 +108,7 @@ export default function home() {
                     onPress={() => {
                       router.push({
                         pathname: '/checkQR',
-                        params: { employeeID, packageIds }
+                        params: { reportID: tsk.report_id ,employeeID, packageIds }
                       });
                     }}
                   >
