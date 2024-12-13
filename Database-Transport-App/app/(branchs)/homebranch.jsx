@@ -45,17 +45,22 @@ export default function Home() {
 
   const fetchingExportReportList = async () => {
     if (!BranchID) return;
-
+  
     const { data, error } = await supabase
       .from('export_report_has_package')
       .select('export_report_id, package(package_id)')
-      .eq('package.branch_id', BranchID);
-
+      .eq('package.branch_id', BranchID.toString());
+  
     if (error) {
       console.error('Error fetching Export Report List:', error);
     } else {
-      const uniqueReports = Array.from(new Set(data.map(a => a.export_report_id)))
-        .map(id => data.find(a => a.export_report_id === id));
+      // Filter out entries where package is null
+      const filteredData = data.filter(item => item.package !== null);
+  
+      // Get unique export_report_ids
+      const uniqueReports = Array.from(new Set(filteredData.map(a => a.export_report_id)))
+        .map(id => filteredData.find(a => a.export_report_id === id));
+  
       setExportReportList(uniqueReports);
     }
   };
