@@ -10,12 +10,9 @@ export const styles = StyleSheet.create({
   headerContainer: {
     flex: 1.8
   },
-  bodyContainer: {
-    flex: 6,
-  },
   Footer_container: {
     flex: 3.5,
-    marginTop: '8%',
+    marginTop: '45%',
     marginBottom: '50%'
   },
 

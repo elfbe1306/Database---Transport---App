@@ -57,7 +57,10 @@ const Index = () => {
           params: {employeeID: employeeData?.e_id}
         });
       } else {
-        router.push('/(branchs)');
+        router.push({
+          pathname: '/homebranch',
+          params: {employeeID: employeeData?.e_id}
+        });
       }
     } catch (error) {
       console.error("Unexpected Error:", error);
