@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     },
     
     Footer_container: {
-        flex: 3.5
+        flex: 3.5,
     },
     
     firstBody: {
@@ -113,8 +113,8 @@ export const styles = StyleSheet.create({
       },
     
       confirmed_Button: {
-        marginLeft:'60%',
-        marginRight:'14%',
+        marginHorizontal: '20%',
+        marginBottom: '5%',
         backgroundColor: '#4A628A', 
         paddingVertical: 10,
         borderRadius: 12,
