@@ -5,6 +5,7 @@ const TabsLayout = () => {
         <Stack.Screen name="index"/>
         <Stack.Screen name="homebranch"/>
         <Stack.Screen name="reportbranch"/>
+        <Stack.Screen name="scannerbranch"/>
     </Stack>
 }
 

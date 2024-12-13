@@ -119,8 +119,7 @@ tableContainer: {
   },
 
   confirmed_Button: {
-    marginLeft:'70%',
-    marginRight:'4%',
+    marginHorizontal: '15%',
     marginTop:'5%',
     backgroundColor: '#4A628A', 
     paddingVertical: 10,

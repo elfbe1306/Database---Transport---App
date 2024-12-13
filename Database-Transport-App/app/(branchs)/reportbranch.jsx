@@ -6,6 +6,8 @@ import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import supabase from '../../lib/supabase-client';
+import { useCameraPermissions } from 'expo-camera';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function ReportBranch() {
@@ -15,6 +17,7 @@ export default function ReportBranch() {
   
   useEffect(() => {
     handleFetchingProductsByReportID(reportID);
+    initializeStorageQR();
   }, [reportID])
 
   const [products, setProducts] = useState([])
@@ -27,6 +30,34 @@ export default function ReportBranch() {
       setProducts(data);
     }
   }
+
+  const [permission, requestPermission] = useCameraPermissions();
+  const isPermissionGranted = Boolean(permission?.granted);
+  const [storageQR, setStorageQR] = useState([]);
+
+  const initializeStorageQR = async () => {
+    try {
+      const existingData = await AsyncStorage.getItem('@QRDATABRANCH');
+      if (existingData) {
+        setStorageQR(JSON.parse(existingData));
+      } else {
+        await AsyncStorage.setItem('@QRDATABRANCH', JSON.stringify([]));
+        setStorageQR([]);
+      }
+    } catch (error) {
+      console.error('Error initializing storageQR:', error);
+    }
+  };
+  
+  const resetStorageQR = async () => {
+    try {
+      await AsyncStorage.setItem('@QRDATABRANCH', JSON.stringify([]));
+      setStorageQR([]);
+      console.log('Storage reset successfully');
+    } catch (error) {
+      console.error('Error resetting storage:', error);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -59,16 +90,41 @@ export default function ReportBranch() {
               <View style={styles.row} key={pkg.package_id}>
                 <Text style={[styles.cell_Data, { flex: 1.2 }]}>{pkg.package_id}</Text>
                 <Text style={[styles.cell_Data, { flex: 4 }]}>{pkg.product_name}</Text>
+                <TouchableOpacity
+                  style={[styles.cell_Data, { flex: 1.2 }]}
+                  disabled={!isPermissionGranted}
+                  onPress={() => {
+                    router.replace({
+                      pathname: '/scannerbranch',
+                      params: { employeeID, reportID, dataQR: pkg.package_id }
+                    });
+                  }}>
+                  <MaterialIcons
+                    name="qr-code-scanner"
+                    size={24}
+                    color="black"
+                    style={[{ opacity: !isPermissionGranted ? 0.5 : 1 }]}
+                  />
+                </TouchableOpacity>
                 <Text style={[styles.cell_Data, { flex: 1.2 }]}>
-                  <MaterialIcons name="qr-code-scanner" size={24} color="black" />
+                  {storageQR.includes(pkg.package_id) ? 'Complete' : 'Not started'}
                 </Text>
-                <Text style={[styles.cell_Data, { flex: 1.2 }]}>Success</Text>
               </View>
             ))}
           </View>
         </View>
-        <TouchableOpacity style={styles.confirmed_Button}>
+        <TouchableOpacity style={styles.confirmed_Button} onPress={() => {
+          router.back({
+            params: {employeeID: employeeID}
+          })
+          }}>
           <Text style={styles.confirmed_Button_Text}>Confirmed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.confirmed_Button} onPress={requestPermission}>
+          <Text style={styles.confirmed_Button_Text}>Grant Permission</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.confirmed_Button} onPress={resetStorageQR}>
+          <Text style={styles.confirmed_Button_Text}>Reset Storage</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
