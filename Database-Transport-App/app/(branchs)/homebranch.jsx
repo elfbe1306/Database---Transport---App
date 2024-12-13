@@ -13,7 +13,6 @@ export default function Home() {
   const [BranchID, setBranchID] = useState();
   const [exportReportList, setExportReportList] = useState([]);
   const [statuses, setStatuses] = useState({}); // Map report IDs to statuses
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetchingBrandID();
@@ -75,16 +74,6 @@ export default function Home() {
     setStatuses(statusesMap);
   };
 
-  const handleFetchingProductsByReportID = async (input_export_report_id) => {
-    const {data, error} = await supabase.rpc('get_product_name_and_package_id', {input_export_report_id})
-    if(error) {
-      console.error('Error fetching products:', error);
-    } else {
-      setProducts(data);
-      console.log(data);
-    }
-  } 
-
   const today = format(new Date(), 'EEEE MMMM d, yyyy');
 
   return (
@@ -126,10 +115,9 @@ export default function Home() {
               <View style={styles.row} key={report.export_report_id}>
                 <Text style={styles.cell_Data}>Export</Text>
                 <TouchableOpacity onPress={() => {
-                  handleFetchingProductsByReportID(report.export_report_id);
                   router.push({
                     pathname: '/reportbranch',
-                    params: {employeeID: employeeID, products: products}
+                    params: {employeeID: employeeID, reportID: report.export_report_id}
                   })
                 }}>
                   <Text style={styles.cell_Data}>{report.export_report_id}</Text>
