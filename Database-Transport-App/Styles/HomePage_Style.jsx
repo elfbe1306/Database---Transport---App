@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
     padding: 8,
     borderRightWidth: 1,
     borderColor: 'black',
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'roboto',
   },
 
