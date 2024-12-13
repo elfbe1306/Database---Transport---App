@@ -87,7 +87,7 @@ export default function Home() {
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>Song Khue</Text>
+            <Text style={styles.userName}>Do My Quyen</Text>
           </View>
 
           <View style={styles.notificationButton}>
@@ -105,16 +105,16 @@ export default function Home() {
           <View style={styles.table}>
             {/* Table Header */}
             <View style={styles.row_Header}>
-              <Text style={styles.cell_Header}>Task</Text>
-              <Text style={styles.cell_Header}>Report</Text>
-              <Text style={styles.cell_Header}>Status</Text>
+              <Text style={[styles.cell_Header, { flex: 1 }]}>Task</Text>
+              <Text style={[styles.cell_Header, { flex: 1}]}>Report</Text>
+              <Text style={[styles.cell_Header, { flex: 3 }]}>Status</Text>
             </View>
 
             {/* Table Rows */}
             {exportReportList.map((report) => (
               <View style={styles.row} key={report.export_report_id}>
-                <Text style={styles.cell_Data}>Export</Text>
-                <TouchableOpacity onPress={() => {
+                <Text style={[styles.cell_Data, { flex: 0.48}]}>Export</Text>
+                <TouchableOpacity style={[{flex:0.6}]} onPress={() => {
                   router.push({
                     pathname: '/reportbranch',
                     params: {employeeID: employeeID, reportID: report.export_report_id}
@@ -122,7 +122,7 @@ export default function Home() {
                 }}>
                   <Text style={styles.cell_Data}>{report.export_report_id}</Text>
                 </TouchableOpacity>
-                <Text style={styles.cell_Data}>{statuses[report.export_report_id] || 'Loading...'}</Text>
+                <Text style={[styles.cell_Data, { flex: 1.4 }]}>{statuses[report.export_report_id] || 'Loading...'}</Text>
               </View>
             ))}
           </View>
