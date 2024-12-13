@@ -10,12 +10,9 @@ export const styles = StyleSheet.create({
   headerContainer: {
     flex: 1.8
   },
-  bodyContainer: {
-    flex: 6,
-  },
   Footer_container: {
     flex: 3.5,
-    marginTop: '8%',
+    marginTop: '45%',
     marginBottom: '50%'
   },
 
@@ -122,8 +119,7 @@ tableContainer: {
   },
 
   confirmed_Button: {
-    marginLeft:'70%',
-    marginRight:'4%',
+    marginHorizontal: '15%',
     marginTop:'5%',
     backgroundColor: '#4A628A', 
     paddingVertical: 10,
