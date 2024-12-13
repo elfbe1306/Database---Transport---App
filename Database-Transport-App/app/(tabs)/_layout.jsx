@@ -6,6 +6,7 @@ const TabsLayout = () => {
         <Stack.Screen name="home"/>
         <Stack.Screen name="report"/>
         <Stack.Screen name="checkQR"/>
+        <Stack.Screen name="scanner"/>
     </Stack>
 }
 

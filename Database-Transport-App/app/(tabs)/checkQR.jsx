@@ -3,11 +3,13 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import { styles } from '../../Styles/checkQR_Style' 
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import supabase from '../../lib/supabase-client';
+import {useCameraPermissions} from 'expo-camera'
+import { Link } from 'expo-router';
 
 export default function checkQR() {
-  const { employeeID, packageIds } = useLocalSearchParams(); // assuming packageIds is a string like "MP0008,MP0013"
+  const { employeeID, packageIds, dataQR } = useLocalSearchParams(); // assuming packageIds is a string like "MP0008,MP0013"
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -35,6 +37,9 @@ export default function checkQR() {
       setProducts(data); // Set the state with fetched data
     }
   };
+
+  const [permission, requestPermission] = useCameraPermissions();
+  const isPermissionGranted = Boolean(permission?.granted);
 
   return (
     <View style={styles.container}>
@@ -67,11 +72,18 @@ export default function checkQR() {
           {/* Table Rows */}
 
           {products.map((pkg) => (
-            <View style={styles.row}>
+            <View style={styles.row} key={pkg.package_id}>
               <Text style={[styles.cell_Data, { flex: 1.2 }]}>{pkg.package_id}</Text>
               <Text style={[styles.cell_Data, { flex: 4 }]}>{pkg.product_name}</Text>
-              <Text style={[styles.cell_Data, { flex: 1.2 }]}><MaterialIcons name="qr-code-scanner" size={24} color="black" /></Text>
-              <Text style={[styles.cell_Data, { flex: 1.2 }]}>not started</Text>
+              <TouchableOpacity style={[styles.cell_Data, { flex: 1.2 }]} disabled={!isPermissionGranted} onPress={() => {
+                router.push({
+                  pathname: '/scanner',
+                  params: {employeeID: employeeID, packageIds: packageIds}
+                })
+              }}>
+                <MaterialIcons name="qr-code-scanner" size={24} color="black" style={[{opacity: !isPermissionGranted ? 0.5 : 1}]}/>
+              </TouchableOpacity>
+              <Text style={[styles.cell_Data, { flex: 1.2 }]}>{pkg.packageIds === dataQR ? "Complete" : "Not started"}</Text>
             </View>
           ))}
       
@@ -80,10 +92,14 @@ export default function checkQR() {
       </View>
 
       <View style={styles.Footer_container}>
-          <TouchableOpacity style={styles.confirmed_Button}>
+        <TouchableOpacity style={styles.confirmed_Button}>
             <Text style={styles.confirmed_Button_Text}>Start Delivery</Text>
         </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity style={styles.confirmed_Button} onPress={requestPermission}>
+            <Text style={styles.confirmed_Button_Text}>Grant Permisson</Text>
+        </TouchableOpacity>
+      </View>
 
     </View>
   )
