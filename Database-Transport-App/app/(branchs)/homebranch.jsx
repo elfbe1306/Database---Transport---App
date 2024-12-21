@@ -92,7 +92,7 @@ export default function Home() {
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>Do My Quyen</Text>
+            <Text style={styles.userName}>My Quyen</Text>
           </View>
 
           <View style={styles.notificationButton}>

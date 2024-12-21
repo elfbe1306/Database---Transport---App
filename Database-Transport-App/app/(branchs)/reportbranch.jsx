@@ -70,7 +70,7 @@ export default function ReportBranch() {
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>Song Khue</Text>
+            <Text style={styles.userName}>My Quyen</Text>
           </View>
           <View style={styles.notificationButton}>
             <Feather name="bell" size={30} color="#4A628A" />
